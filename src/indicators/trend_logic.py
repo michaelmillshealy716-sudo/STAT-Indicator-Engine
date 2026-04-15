@@ -1,4 +1,5 @@
 import numpy as np
+from bridge import format_signal
 
 def calculate_ema(data, period=20):
     """
@@ -20,9 +21,15 @@ def detect_crossover(fast_ema, slow_ema):
     """
     if fast_ema[-1] > slow_ema[-1] and fast_ema[-2] <= slow_ema[-2]:
         print("\n--- STAT: BULLISH CROSSOVER DETECTED ---")
+        telemetry = format_signal("EMA_Crossover", fast_ema[-1], "BULLISH")
+        print(f"[TELEMETRY LOG]: {telemetry}")
         return "BULLISH"
+        
     elif fast_ema[-1] < slow_ema[-1] and fast_ema[-2] >= slow_ema[-2]:
         print("\n--- STAT: BEARISH CROSSOVER DETECTED ---")
+        telemetry = format_signal("EMA_Crossover", fast_ema[-1], "BEARISH")
+        print(f"[TELEMETRY LOG]: {telemetry}")
         return "BEARISH"
+        
     return "NEUTRAL"
 
